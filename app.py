@@ -81,3 +81,24 @@ def create_cupcake():
 
     # return tuple of (json, status)
     return (jsonify(cupcake=serialized), 201)
+
+
+@app.patch("/api/cupcakes/<int:cupcake_id>")
+def update_cupcake(cupcake_id):
+    """Update date about a cupcake.
+    Respond with JSON of the newly-updated cupcake,
+    like this: {cupcake: {id, flavor, size, rating, image_url}}
+    """
+
+    cupcake = db.get_or_404(Cupcake, cupcake_id)
+
+    # get raw data from the request
+    cupcake_updates = request.get_json()
+
+    # update by looping through cupcake instance and replacing any data with
+    # what comes through in request
+
+    # update resource in db with a commit
+    db.session.commit()
+
+    # return json
