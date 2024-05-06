@@ -1,7 +1,7 @@
 """Flask app for Cupcakes"""
 import os
 
-from flask import Flask, request, redirect, render_template, flash, jsonify, url_for
+from flask import Flask, request, jsonify, url_for
 
 from models import db, dbx, Cupcake
 
@@ -18,7 +18,7 @@ db.init_app(app)
 @app.get("/api/cupcakes")
 def get_cupcakes_data():
     """Get data on all cupcakes. Return JSON for all instances.
-    {'cupcake': [{id, flavor, rating, size, image_url}, ...]}
+    {'cupcakes': [{id, flavor, rating, size, image_url}, ...]}
     """
 
     q = db.select(Cupcake).order_by(Cupcake.id)
