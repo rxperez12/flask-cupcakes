@@ -1,7 +1,7 @@
 """Flask app for Cupcakes"""
 import os
 
-from flask import Flask, redirect, render_template, flash, jsonify, url_for
+from flask import Flask, request, redirect, render_template, flash, jsonify, url_for
 
 from models import db, dbx, Cupcake
 
@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = "secret"
 db.init_app(app)
 
 
-@app.get("api/cupcakes")
+@app.get("/api/cupcakes")
 def get_cupcakes_data():
     """Get data on all cupcakes. Return JSON for all instances."""
 
@@ -43,13 +43,13 @@ def create_cupcake():
     flavor = request.json["flavor"]
     size = request.json["size"]
     rating = request.json["rating"]
-    image = request.json["image"] or None
+    image_url = request.json["image_url"] or None
 
     new_cupcake = Cupcake(
         flavor=flavor,
         size=size,
         rating=rating,
-        image=image
+        image_url=image_url
     )
 
     db.session.add(new_cupcake)
