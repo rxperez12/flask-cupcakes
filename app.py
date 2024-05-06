@@ -87,7 +87,7 @@ def create_cupcake():
 def update_cupcake(cupcake_id):
     """Update date about a cupcake.
     Respond with JSON of the newly-updated cupcake,
-    like this: {cupcake: {id, flavor, size, rating, image_url}}
+    {cupcake: {id, flavor, size, rating, image_url}}
     """
 
     cupcake = db.get_or_404(Cupcake, cupcake_id)
