@@ -98,7 +98,29 @@ def update_cupcake(cupcake_id):
     # update by looping through cupcake instance and replacing any data with
     # what comes through in request
 
+    cupcake.flavor = cupcake_updates.get("flavor", cupcake.flavor)
+    cupcake.size = cupcake_updates.get("size", cupcake.size)
+    cupcake.rating = cupcake_updates.get("rating", cupcake.rating)
+    cupcake.image_url = cupcake_updates.get("image_url", cupcake.image_url)
+
     # update resource in db with a commit
+
     db.session.commit()
 
     # return json
+    return jsonify(cupcake.serialize())
+
+
+@app.delete("/api/cupcakes/<int:cupcake_id>")
+def delete_cupcake(cupcake_id):
+    """Delete cupcake with the id passed in the URL.
+    Respond with JSON similar to {deleted: [cupcake-id]}
+    """
+    cupcake = db.get_or_404(Cupcake, cupcake_id)
+
+    # update resource in db with a commit
+    db.session.delete(cupcake)
+    db.session.commit()
+
+    # return json
+    return jsonify(deleted=cupcake_id)
