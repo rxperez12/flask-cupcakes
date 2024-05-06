@@ -17,7 +17,9 @@ db.init_app(app)
 
 @app.get("/api/cupcakes")
 def get_cupcakes_data():
-    """Get data on all cupcakes. Return JSON for all instances."""
+    """Get data on all cupcakes. Return JSON for all instances.
+    {'cupcake': [{id, flavor, rating, size, image_url}, ...]}
+    """
 
     q = db.select(Cupcake).order_by(Cupcake.id)
     cupcakes = dbx(q).scalars().all()
@@ -28,7 +30,17 @@ def get_cupcakes_data():
 
 @app.get("/api/cupcakes/<int:cupcake_id>")
 def get_cupcake_data(cupcake_id):
-    """Get data on a single cupcake. Return JSON."""
+    """Get data on a single cupcake. Return JSON.
+    {
+        "cupcake": {
+                "id": int,
+                "flavor": str,
+                "size": str
+                "rating": int
+                "image_url": str
+        }
+    }
+    """
 
     cupcake = db.get_or_404(Cupcake, cupcake_id)
     serialized = cupcake.serialize()
@@ -38,7 +50,17 @@ def get_cupcake_data(cupcake_id):
 
 @app.post("/api/cupcakes")
 def create_cupcake():
-    """Create a cupcake with data from body of request. Respond with JSON."""
+    """Create a cupcake with data from body of request. Respond with JSON.
+    {
+        "cupcake": {
+                "flavor": str,
+                "id": int,
+                "image_url": str
+                "rating": int
+                "size": str
+        }
+    }
+    """
 
     flavor = request.json["flavor"]
     size = request.json["size"]
