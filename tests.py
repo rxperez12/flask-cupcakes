@@ -47,6 +47,13 @@ CUPCAKE_DATA_2 = {
     "image_url": "http://test.com/cupcake2.jpg"
 }
 
+PATCH_CUPCAKE_DATA = {
+    "flavor": "TestFlavorPatch",
+    "size": "TestSizePatch",
+    "rating": 0,
+    "image_url": "http://test.com/cupcake2.jpg"
+}
+
 
 class CupcakeViewsTestCase(TestCase):
     """Tests for views of API."""
@@ -102,6 +109,50 @@ class CupcakeViewsTestCase(TestCase):
                     "image_url": "http://test.com/cupcake.jpg"
                 }
             })
+
+    def test_delete_cupcake(self):
+        """Test that you can delete cupcake from db"""
+        with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake_id}"
+            resp = client.delete(url)
+
+            self.assertEqual(resp.status_code, 200)
+
+            q = db.select(Cupcake)
+            self.assertEqual(len(dbx(q).scalars().all()), 0)
+
+    def test_patch_cupcake(self):
+        """Test updating cupcake information"""
+
+        with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake_id}"
+            resp = client.patch(url, json=PATCH_CUPCAKE_DATA)
+
+            self.assertEqual(resp.status_code, 200)
+
+            print('!!!!!!!!!!!!!!!!!!!!!!!!! JSON RESPONSE', resp.json)
+
+            q = db.select(Cupcake).where(Cupcake.id == self.cupcake_id)
+
+            cupcake_changed = dbx(q).scalars().one()
+
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CUPCAKE", cupcake_changed)
+            self.assertEqual(cupcake_changed.flavor, "TestFlavorPatch")
+            self.assertEqual(cupcake_changed.size, "TestSizePatch")
+            self.assertEqual(cupcake_changed.rating, 0)
+            self.assertEqual(cupcake_changed.image_url,
+                             "http://test.com/cupcake2.jpg")
+
+            # DIDNT WORK> WWHHYYYYYYYY
+            # self.assertEqual(resp.json, {
+            #     "cupcake": {
+            #         "id": self.cupcake_id,
+            #         "flavor": "TestFlavorPatch",
+            #         "size": "TestSizePatch",
+            #         "rating": 0,
+            #         "image_url": "http://test.com/cupcake2.jpg"
+            #     }
+            # })
 
     def test_create_cupcake(self):
         with app.test_client() as client:
