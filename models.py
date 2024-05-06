@@ -3,7 +3,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-# dbx - db.session.execute
+dbx = db.session.execute
 
 
 class Cupcake(db.Model):
@@ -14,7 +14,7 @@ class Cupcake(db.Model):
     id = db.mapped_column(
         db.Integer,
         db.Identity(),
-        primary_true=True
+        primary_key=True
     )
 
     flavor = db.mapped_column(
