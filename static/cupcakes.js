@@ -1,4 +1,6 @@
+const qs = document.querySelector.bind(document);
 const $cupcakesList = document.querySelector('.cupcakes-list');
+const $cupcakeForm = qs('.cupcake-form');
 
 
 /** Query API for data on all cupcakes and update the list on page. */
@@ -6,8 +8,9 @@ async function setUpPage() {
 
   const response = await fetch('/api/cupcakes');
   const cupcakesData = await response.json();
-  console.log('CUPCAKE DATA', cupcakesData);
+
   displayCupcakes(cupcakesData);
+  $cupcakeForm.addEventListener("submit", handleForm);
 
 }
 
@@ -49,11 +52,35 @@ function createCupcakeHTML(cupcake) {
   return $cupcake;
 }
 
-document.querySelector('.btn').addEventListener("submit", handleForm);
+async function handleForm(evt) {
+  evt.preventDefault();
 
-function handleForm() {
+  const flavor = qs('.flavor-input').value;
+  const size = qs('.size-input').value;
+  const rating = qs('.rating-input').value;
+  const image_url = qs('.image-input').value;
 
+  console.log(JSON.stringify({ flavor, size, rating, image_url }));
+
+  const response = await fetch(`/api/cupcakes`, {
+    method: "POST",
+    body: JSON.stringify({
+      flavor,
+      rating,
+      size,
+      image_url,
+    }),
+    headers: {
+      "content-type": "application/json",
+    }
+  });
+
+  const data = await response.json();
+
+  const addedCupcake = data.cupcake;
+  $cupcakesList.appendChild(createCupcakeHTML(addedCupcake));
 }
 
-export { setUpPage }
+setUpPage()
+
 

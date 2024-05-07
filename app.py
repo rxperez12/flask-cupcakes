@@ -81,6 +81,8 @@ def create_cupcake():
         image_url=image_url
     )
 
+    print("!!!!!!!!!!!!!!!!!!!!! new cupcake", new_cupcake)
+
     db.session.add(new_cupcake)
     db.session.commit()
 

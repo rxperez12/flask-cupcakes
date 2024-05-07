@@ -16,27 +16,24 @@
     <ul class='cupcakes-list list-group'>
     </ul>
 
-    <form action="/api/cupcakes" method="post">
+    <form class="cupcake-form">
       <label>Flavor
-        <input name="flavor" type="text" required>
+        <input name="flavor" type="text" class="flavor-input" required>
       </label><br>
       <label>Size
-        <input name="size" type="text" required>
+        <input name="size" type="text" class="size-input" required>
       </label><br>
       <label>Rating
-        <input name="rating" type="number" required>
+        <input name="rating" type="number" class="rating-input" required>
       </label><br>
       <label>Image URL
-        <input name="image_url" type="url" required>
+        <input name="image_url" type="url" class="image-input">
       </label>
 
       <p><button class="btn btn-primary" type="submit">Add a cupcake!</button></p>
     </form>
   </div>
-  <script type="module">
-    import { setUpPage } from "/static/cupcakes.js";
-    setUpPage();
-  </script>
+  <script src="/static/cupcakes.js"></script>
 </body>
 
 </html>
