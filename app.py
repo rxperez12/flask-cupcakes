@@ -1,7 +1,7 @@
 """Flask app for Cupcakes"""
 import os
 
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify, url_for, render_template
 
 from models import db, dbx, Cupcake
 
@@ -13,6 +13,13 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['SQLALCHEMY_RECORD_QUERIES'] = True
 app.config['SECRET_KEY'] = "secret"
 db.init_app(app)
+
+
+@app.get("/")
+def show_homepage():
+    """Display homepage."""
+
+    return render_template("index.jinja")
 
 
 @app.get("/api/cupcakes")
