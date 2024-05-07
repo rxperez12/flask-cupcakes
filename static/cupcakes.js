@@ -2,7 +2,7 @@ const $cupcakesList = document.querySelector('.cupcakes-list');
 
 
 /** Query API for data on all cupcakes and update the list on page. */
-async function getCupcakes() {
+async function setUpPage() {
 
   const response = await fetch('/api/cupcakes');
   const cupcakesData = await response.json();
@@ -42,5 +42,5 @@ function handleForm() {
 
 }
 
-getCupcakes()
+export { setUpPage }
 

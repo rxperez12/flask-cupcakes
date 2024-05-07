@@ -3,10 +3,6 @@ from unittest import TestCase
 from app import app
 from models import db, dbx, Cupcake
 
-from unittest import TestCase
-
-from app import app
-from models import db, dbx, Cupcake
 
 # Make Flask errors be real errors, rather than HTML pages with error info
 app.config['TESTING'] = True
