@@ -119,10 +119,11 @@ class CupcakeViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
 
             q = db.select(Cupcake)
+            # check that there is only one before
             self.assertEqual(len(dbx(q).scalars().all()), 0)
 
     def test_patch_cupcake(self):
-        """Test updating cupcake information"""
+        """Test updating cupcake information"""  # Expectation is that the order goes as the routes for the tests
 
         with app.test_client() as client:
             url = f"/api/cupcakes/{self.cupcake_id}"
@@ -143,16 +144,15 @@ class CupcakeViewsTestCase(TestCase):
             self.assertEqual(cupcake_changed.image_url,
                              "http://test.com/cupcake2.jpg")
 
-            # DIDNT WORK> WWHHYYYYYYYY
-            # self.assertEqual(resp.json, {
-            #     "cupcake": {
-            #         "id": self.cupcake_id,
-            #         "flavor": "TestFlavorPatch",
-            #         "size": "TestSizePatch",
-            #         "rating": 0,
-            #         "image_url": "http://test.com/cupcake2.jpg"
-            #     }
-            # })
+            self.assertEqual(resp.json, {
+                "cupcake": {
+                    "id": self.cupcake_id,
+                    "flavor": "TestFlavorPatch",
+                    "size": "TestSizePatch",
+                    "rating": 0,
+                    "image_url": "http://test.com/cupcake2.jpg"
+                }
+            })
 
     def test_create_cupcake(self):
         with app.test_client() as client:

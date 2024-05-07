@@ -86,14 +86,14 @@ def create_cupcake():
 @app.patch("/api/cupcakes/<int:cupcake_id>")
 def update_cupcake(cupcake_id):
     """Update date about a cupcake.
-    Respond with JSON of the newly-updated cupcake,
+    Respond with JSON of the newly-updated cupcake, TODO: put in what it takes in as well
     {cupcake: {id, flavor, size, rating, image_url}}
     """
 
     cupcake = db.get_or_404(Cupcake, cupcake_id)
 
     # get raw data from the request
-    cupcake_updates = request.get_json()
+    cupcake_updates = request.get_json()  # .json -> same thing
 
     # update by looping through cupcake instance and replacing any data with
     # what comes through in request
@@ -108,7 +108,7 @@ def update_cupcake(cupcake_id):
     db.session.commit()
 
     # return json
-    return jsonify(cupcake.serialize())
+    return jsonify(cupcake=cupcake.serialize())
 
 
 @app.delete("/api/cupcakes/<int:cupcake_id>")
