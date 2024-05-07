@@ -15,25 +15,38 @@ async function setUpPage() {
 function displayCupcakes(cupcakesData) {
   const cupcakes = cupcakesData.cupcakes;
 
-  //WHY IS IT ONLY A NUMBER?????
-  //Create element
   for (const cupcake of cupcakes) {
-    console.log(cupcake);
-    const $cupcake = document.createElement('li');
-
-    const $cupcakeImage = document.createElement('img');
-    $cupcakeImage.src = cupcake.image_url;
-    $cupcake.appendChild($cupcakeImage);
-    const $cupcakeFlavor = document.createElement('p');
-    $cupcakeFlavor.innerHTML = cupcake.flavor;
-    $cupcake.appendChild($cupcakeFlavor);
-
-
-    // const $cupcakeImage = document.createElement('img');
-    // const $cupcakeImage = document.createElement('img');
-    $cupcakesList.appendChild($cupcake);
+    const $cupcakeElem = createCupcakeHTML(cupcake);
+    $cupcakesList.appendChild($cupcakeElem);
   }
 
+}
+
+/** Given a cupcake dictionary, create a cupcake HTML display li */
+function createCupcakeHTML(cupcake) {
+  const $cupcake = document.createElement('li');
+
+  const $cupcakeImage = document.createElement('img');
+  $cupcakeImage.src = cupcake.image_url;
+  $cupcakeImage.classList.add('cupcake-image');
+  $cupcake.appendChild($cupcakeImage);
+
+  const $cupcakeFlavor = document.createElement('div');
+  $cupcakeFlavor.innerHTML = cupcake.flavor;
+  $cupcakeFlavor.classList.add('flavor');
+  $cupcake.appendChild($cupcakeFlavor);
+
+  const $cupcakeSize = document.createElement('div');
+  $cupcakeSize.innerHTML = cupcake.size;
+  $cupcakeSize.classList.add('size');
+  $cupcake.appendChild($cupcakeSize);
+
+  const $cupcakeRating = document.createElement('div');
+  $cupcakeRating.innerHTML = cupcake.rating;
+  $cupcakeRating.classList.add('rating');
+  $cupcake.appendChild($cupcakeRating);
+
+  return $cupcake;
 }
 
 document.querySelector('.btn').addEventListener("submit", handleForm);
